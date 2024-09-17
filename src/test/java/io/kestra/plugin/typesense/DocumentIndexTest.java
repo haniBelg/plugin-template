@@ -23,7 +23,10 @@ import jakarta.inject.Inject;
 class DocumentIndexTest {
 
         @Container
-        public static TypesenseContainer typesense = new TypesenseContainer();
+        public TypesenseContainer typesense = new TypesenseContainer("http",
+                        "127.0.0.1",
+                        "8108",
+                        "xyz");
 
         @Inject
         Client client;

@@ -9,6 +9,6 @@ kestra:
       base-path: /tmp/unittest
 typesense:
   protocol: http
-  host: localhost
+  host: 127.0.0.1
   port: 8108
   api-key: xyz
