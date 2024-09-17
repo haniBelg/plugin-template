@@ -34,6 +34,9 @@ tasks.withType(JavaCompile) {
 }
 
 dependencies {
+
+    implementation 'org.typesense:typesense-java:0.9.0'
+
     // Platform
     annotationProcessor enforcedPlatform("io.kestra:platform:$kestraVersion")
     implementation enforcedPlatform("io.kestra:platform:$kestraVersion")
@@ -100,6 +103,10 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-engine"
     testImplementation "org.hamcrest:hamcrest"
     testImplementation "org.hamcrest:hamcrest-library"
+
+    testImplementation("io.micronaut.test:micronaut-test-junit5")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("org.testcontainers:junit-jupiter")
 }
 
 /**********************************************************************************************************************\
