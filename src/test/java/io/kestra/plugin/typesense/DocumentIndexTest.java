@@ -4,32 +4,34 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 import org.typesense.api.Client;
+import org.typesense.api.FieldTypes;
+import org.typesense.model.CollectionResponse;
+import org.typesense.model.CollectionSchema;
+import org.typesense.model.Field;
 
 import com.google.common.collect.ImmutableMap;
 
 import io.kestra.core.junit.annotations.KestraTest;
 import io.kestra.core.runners.RunContext;
 import io.kestra.core.runners.RunContextFactory;
-import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 
 @KestraTest
-@MicronautTest
-@Testcontainers
 class DocumentIndexTest {
-
-        @Container
-        public TypesenseContainer typesense = new TypesenseContainer("http",
-                        "127.0.0.1",
-                        "8108",
-                        "xyz");
 
         @Inject
         Client client;
+
+        @BeforeEach
+        void setup() throws Exception {
+                CollectionSchema collectionSchema = new CollectionSchema();
+                collectionSchema.name("companies")
+                                .addFieldsItem(new Field().name(".*").type(FieldTypes.AUTO));
+                CollectionResponse collectionResponse = client.collections().create(collectionSchema);
+        }
 
         @Inject
         private RunContextFactory runContextFactory;

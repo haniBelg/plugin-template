@@ -7,20 +7,14 @@ import org.testcontainers.containers.wait.strategy.HttpWaitStrategy;
 import org.testcontainers.utility.DockerImageName;
 
 public class TypesenseContainer extends GenericContainer<TypesenseContainer> {
-    private final String protocol;
-    private final String host;
     private final String port;
     private final String apiKey;
 
-    public TypesenseContainer(String protocol,
-            String host,
-            String port,
+    public TypesenseContainer(String port,
             String apiKey) {
         super(DockerImageName.parse("typesense/typesense:27.0"));
         this.apiKey = apiKey;
-        this.host = host;
         this.port = port;
-        this.protocol = protocol;
         withExposedPorts(Integer.parseInt(port));
         withEnv("TYPESENSE_API_KEY", this.apiKey);
         withEnv("TYPESENSE_DATA_DIR", "/tmp");

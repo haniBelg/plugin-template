@@ -14,19 +14,23 @@ import io.micronaut.context.annotation.Value;
 
 @Factory
 public class TestConfig {
+    public TypesenseContainer typesense;
 
     @Bean
     public Client client(
             @Value("${typesense.protocol}") String protocol,
-            @Value("${typesense.host}") String host,
             @Value("${typesense.port}") String port,
             @Value("${typesense.api-key}") String apiKey) {
+        typesense = new TypesenseContainer(port,
+                apiKey);
+        typesense.start();
+
         List<Node> nodes = new ArrayList<>();
         nodes.add(
                 new Node(
                         protocol, // For Typesense Cloud use https
-                        host, // For Typesense Cloud use xxx.a1.typesense.net
-                        port // For Typesense Cloud use 443
+                        typesense.getHost(), // For Typesense Cloud use xxx.a1.typesense.net
+                        typesense.getMappedPort(Integer.parseInt(port)).toString() // For Typesense Cloud use 443
                 ));
 
         Configuration configuration = new Configuration(nodes, Duration.ofSeconds(2), apiKey);
